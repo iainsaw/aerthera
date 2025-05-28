@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Menggabungkan definisi :root dari berbagai bagian,
+       memilih yang tampaknya paling update atau komprehensif */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%; /* Dari definisi :root terakhir, lebih kontras */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%; /* Dari definisi :root terakhir, lebih kontras */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%; /* Dari definisi :root terakhir, lebih kontras */
+    --primary: 201 100% 50%; /* Sky blue (#00A3FF) - konsisten */
+    --primary-foreground: 0 0% 100%; /* konsisten */
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 25% 27%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%; /* Dari definisi :root terakhir */
+    --border: 0 0% 20%; /* konsisten */
+    --input: 0 0% 20%; /* konsisten */
+    --ring: 0 0% 83%; /* konsisten */
+    --radius: 0.75rem;
+
+    /* Weather state colors */
+    --success: 142 71% 45%;
+    --warning: 37 97% 70%;
+    --danger: 0 84% 60%; /* Bisa disamakan dengan --destructive jika nilainya sama */
+  }
+
+  .dark {
+    /* Menggabungkan definisi .dark yang paling komprehensif */
+    --background: 222 22% 15%;
+    --foreground: 210 40% 98%;
+    --card: 222 20% 18%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 22% 15%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 80% 56%; /* Primary khas dark mode */
+    --primary-foreground: 222.2 47.4% 11.2%; /* Foreground untuk primary dark mode */
+    --secondary: 217 18% 24%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 210 20% 20%;
+    --muted-foreground: 215 20% 65%; /* Dari update .dark yang konsisten */
+    --accent: 217 18% 24%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 18% 28%;
+    --input: 217 18% 28%;
+    --ring: 210 80% 56%;
+    /* Weather state colors tidak di-override di dark mode, akan mewarisi dari :root */
+    /* Jika ingin berbeda, definisikan di sini */
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing: -0.011em;
+  }
+}
+
+@layer components {
+  /* Notion-inspired card styling (digabungkan) */
+  .notion-card {
+    @apply bg-card rounded-xl border border-border/40 shadow-sm hover:shadow-md transition-all duration-200 ease-in-out;
+    @apply hover:ring-1 hover:ring-border/60 active:ring-2 active:ring-primary/20; /* Enhanced card animations */
+  }
+
+  .notion-metric-card {
+    @apply bg-card border border-border/40 rounded-lg shadow-sm transition-all duration-200;
+  }
+
+  .weather-card {
+    @apply notion-card p-5;
+  }
+
+  .weather-metric-card {
+    @apply notion-metric-card p-3;
+  }
+
+  /* Animations (yang diterapkan sebagai kelas) */
+  .fade-in {
+    animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .slide-up {
+    animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .subtle-bounce {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .subtle-bounce:active {
+    transform: scale(0.97);
+  }
+
+  /* Empty state styling */
+  .empty-state {
+    @apply flex flex-col items-center justify-center p-8 text-center text-muted-foreground;
+  }
+
+  .empty-state-icon {
+    @apply text-4xl mb-3 opacity-70;
+  }
+
+  .empty-state-text {
+    @apply text-sm max-w-[200px] mx-auto;
+  }
+
+  /* Daily weather tip styling */
+  .daily-tip {
+    @apply bg-secondary/50 border border-border/30 rounded-xl p-4 mt-4 flex items-start gap-3;
+  }
+
+  .daily-tip-icon {
+    @apply text-primary text-xl flex-shrink-0 mt-0.5;
+  }
+
+  .daily-tip-content {
+    @apply text-sm text-foreground/90;
+  }
+
+  /* Toast styling updates */
+  .sonner-toast { /* Asumsi ini adalah nama kelas yang benar untuk library toast */
+    @apply rounded-lg border border-border/40 shadow-md bg-card;
+  }
+
+  /* Interactive elements hover states */
+  .interactive-hover {
+    @apply transition-all duration-200 hover:bg-secondary/70 active:bg-secondary/90;
+  }
+
+  .tab-active {
+    @apply bg-secondary/70 text-primary border-b-2 border-primary;
+  }
+
+  /* Weather highlight */
+  .weather-highlight {
+    @apply bg-gradient-to-br from-primary/10 to-primary/5;
+  }
+  .dark .weather-highlight {
+    @apply from-primary/20 to-primary/10;
+  }
+
+  /* Notion-style block components */
+  .notion-blocks-container {
+    @apply grid gap-1 w-full max-w-full;
+  }
+
+  .notion-block {
+    @apply relative group cursor-default rounded-md transition-all duration-200;
+  }
+
+  .notion-block:hover {
+    @apply bg-secondary/50;
+  }
+
+  .notion-block-handle {
+    @apply absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full
+           opacity-0 group-hover:opacity-100 p-1 transition-opacity duration-200;
+  }
+
+  .dense-layout { /* Bisa jadi utility atau component tergantung penggunaan */
+    @apply gap-0.5 [&>*]:py-1;
+  }
+
+  .notion-sidebar {
+    @apply fixed left-0 top-0 h-full w-64 bg-background border-r border-border/40
+           transform transition-transform duration-300 ease-in-out;
+  }
+
+  .notion-collapsible {
+    @apply overflow-hidden transition-all duration-200;
+  }
+
+  .notion-loading {
+    @apply animate-pulse bg-secondary/40 rounded-md;
+  }
+
+  .notion-interactive {
+    @apply cursor-pointer hover:bg-secondary/70 active:bg-secondary/90
+           transition-colors duration-150;
+  }
+
+  .notion-empty-space {
+    @apply min-h-[32px] hover:bg-secondary/30 rounded-sm
+           transition-colors duration-200 cursor-text;
+  }
+
+  .notion-tooltip {
+    @apply invisible opacity-0 absolute z-50 px-2 py-1 text-xs
+           bg-popover text-popover-foreground rounded shadow-md
+           transition-all duration-200 group-hover:visible group-hover:opacity-100;
+  }
+
+  .notion-animate-in {
+    animation: notion-fade-in 0.15s ease-out;
+  }
+
+  .notion-animate-out {
+    animation: notion-fade-out 0.1s ease-in;
+  }
+
+  .notion-hover-fade {
+    @apply transition-opacity duration-200
+           opacity-0 group-hover:opacity-100;
+  }
+
+  .notion-loading-spinner {
+    @apply relative w-4 h-4 border-2 border-primary/20 rounded-full;
+  }
+
+  .notion-loading-spinner::after {
+    content: '';
+    @apply absolute inset-0 rounded-full border-2 border-transparent border-t-primary
+           animate-spin;
+  }
+
+  /* Notion-style typography classes */
+  .notion-title {
+    @apply text-3xl font-bold tracking-tight;
+  }
+  .notion-h1 {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+  .notion-h2 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+  .notion-h3 {
+    @apply text-lg font-medium;
+  }
+  .notion-text {
+    @apply text-sm leading-relaxed text-foreground/90;
+  }
+  .notion-caption {
+    @apply text-xs text-muted-foreground;
+  }
+
+  /* Responsive container adjustments (bisa juga jadi bagian dari @layer base jika container adalah elemen dasar) */
+  /* Jika .container adalah kelas spesifik, @layer components lebih cocok */
+  .container { /* Default container, jika ada */
+    /* @apply w-full mx-auto px-2; (Contoh) */
+  }
+  @screen sm {
+    .container {
+      @apply px-4;
+    }
+  }
+  @screen md {
+    .container {
+      @apply px-6;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .notion-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Untuk kompatibilitas Safari */
+  }
+
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+}
+
+/* Keyframes (global, di luar layer) */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes notion-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes notion-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(4px); }
+}
+
+/* Gaya non-Tailwind (global atau di akhir) */
+.aqi-scale {
+  display: flex;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 8px 0;
+  opacity: 0.85;
+}
+
+.aqi-scale div {
+  height: 100%;
+}
+
+.aqi-scale .good { background-color: #00e400; width: 16.6%; }
+.aqi-scale .moderate { background-color: #ffff00; width: 16.6%; }
+.aqi-scale .sensitive { background-color: #ff7e00; width: 16.6%; }
+.aqi-scale .unhealthy { background-color: #ff0000; width: 16.6%; }
+.aqi-scale .very-unhealthy { background-color: #8f3f97; width: 16.6%; }
+.aqi-scale .hazardous { background-color: #7e0023; width: 16.6%; }
+
+.gradient-temp {
+  background: linear-gradient(180deg, #86efac 0%, #fcd34d 50%, #f87171 100%);
+  opacity: 0.85;
+}
